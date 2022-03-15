@@ -4,7 +4,7 @@ public class FactoryMaps {
     
     public Map<String, String> createMap (Integer action) {
         switch (action){
-            case 1:
+            case 1:                
                 return new HashMap<>();
             case 2:
                 return new TreeMap<>();
