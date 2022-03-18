@@ -1,8 +1,18 @@
 import java.util.*;
 import java.util.stream.Stream;
+/**
+ * Realiza las operaciones indicadas para el ejercicio
+ * @author Mariel Guamuche
+ * @author Lourdes Saavedra
+ * **/
 public class Operaciones {
     private Operaciones(){}
-    
+    /**
+     * Ingresa el dato indicado
+     * @param cartas Mapa de cartas
+     * @param nombre Carta que se desea agregar
+     * @param usuario Mapa del usuario
+     * **/
     public static void ingresarDatos(Map<String, String> cartas,Map<String,ArrayList<String>> usuario, String nombre){    
         boolean encontrado=false;
         for (Map.Entry<String, String> element : cartas.entrySet()) {            
@@ -23,6 +33,11 @@ public class Operaciones {
         if(encontrado==false) System.out.println("Esta carta no existe, no será agregada");      
     }
 
+    /**
+     * Muestra el dato de la carta que se desea buscar
+     * @param cartas Mapa de cartas
+     * @param nombre Carta que se desea agregar
+     * */
     public static void mostrarTipo(Map<String, String> cartas, String nombre) {
         boolean encontrado=false;
         for (Map.Entry<String, String> element : cartas.entrySet()) {
@@ -36,6 +51,11 @@ public class Operaciones {
 
     }
 
+    /**
+     * Muestra la colección del usuario
+     * @param ordenado true: se desea ordenada la salida, false: la salida es desordenada
+     * @param usuarioCartas Mapa del usuario
+     *  */
     public static void mostrarColeccion(Map<String, ArrayList<String>> usuarioCartas, boolean ordenado){
         Map<String, String> nuevo = new HashMap<>();
         String element;  
@@ -56,6 +76,11 @@ public class Operaciones {
         }        
     }
 
+    /**
+     * Muestra la colección del catálogo de cartas
+     * @param ordenado true: se desea ordenada la salida, false: la salida es desordenada
+     * @param cartasCatalogo Mapa del catálogo
+     *  */
     public static void mostrarCatalogo(Map<String, String> cartasCatalogo, boolean ordenado) {
         if(ordenado==true){
             Stream<Map.Entry<String, String>> sorted = cartasCatalogo.entrySet().stream()
