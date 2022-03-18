@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -7,8 +8,10 @@ public class App {
         Scanner opcionCartas  = new Scanner(System.in); // lector de objetos
         Reader archivo = new Reader();
         FactoryMaps factory;
-        Map<String, String> mapsCartas;        
-        Map<String, String> mapsUsuario;
+        Map<String, String> mapsCartas;  
+        Map<String, ArrayList<String>> mapsUsuario;    
+         
+        
         int opcion = 0;                
         
         while(opcion!=4) {
@@ -25,7 +28,7 @@ public class App {
                 factory = new FactoryMaps();
                 mapsCartas = factory.createMap(opcion);  
                 mapsCartas = archivo.cargarDatos(mapsCartas); // se crea el mapa de datos disponibles
-                mapsUsuario = factory.createMap(opcion);  
+                mapsUsuario = factory.createMapU(opcion);  
                 System.out.println("Mapa correctamente creado");                    
                 int opcion2=0;
                 // seleccion de operacion 

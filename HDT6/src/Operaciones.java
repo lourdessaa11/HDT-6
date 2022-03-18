@@ -1,14 +1,21 @@
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.stream.Stream;
 public class Operaciones {
     private Operaciones(){}
     
-    public static void ingresarDatos(Map<String, String> cartas,Map<String,String> usuario, String nombre){    
+    public static void ingresarDatos(Map<String, String> cartas,Map<String,ArrayList<String>> usuario, String nombre){    
         boolean encontrado=false;
-        for (Map.Entry<String, String> element : cartas.entrySet()) {
+        for (Map.Entry<String, String> element : cartas.entrySet()) {            
             if(element.getKey().equals(nombre.toUpperCase())) {
-                usuario.put(nombre, element.getValue());      
+                ArrayList<String> itemsList = usuario.get(nombre);
+                if(itemsList == null) {
+                    itemsList = new ArrayList<String>();
+                    itemsList.add(element.getValue());
+                    usuario.put(nombre, itemsList);  
+               } else {
+                   // si el elemento ya existe
+                   if(itemsList.contains(element.getValue())) itemsList.add(element.getValue());
+               }                                                    
                 encontrado=true;
                 System.out.println("La carta "+nombre+" de tipo "+element.getValue()+" ha sido agregada");
             }
@@ -26,36 +33,26 @@ public class Operaciones {
         }         
         if(encontrado==false) 
             System.out.println("Esta carta no existe entre el catálogo de cartas");
-         
+
     }
 
-    public static void mostrarColeccion(Map<String, String> usuarioCartas, boolean ordenado){
+    public static void mostrarColeccion(Map<String, ArrayList<String>> usuarioCartas, boolean ordenado){
         Map<String, String> nuevo = new HashMap<>();
         String element;  
-        int count=0;      
-        for (Map.Entry<String, String> entry : usuarioCartas.entrySet()) 
-        {                       
-            element = entry.getKey();
-            for (Map.Entry<String, String> entry2 : usuarioCartas.entrySet()) {
-                if(element.equals(entry2.getKey())) {
-                    if(nuevo.containsKey(entry.getKey())){
-                        // no se cuenta 
-                    }else { 
-                        count++;
-                    }
-                }                
-            }
-            nuevo.put(element, entry.getValue()+"|"+count);
-            count=0;
-        }
+    
         if(!ordenado) {
-            for (Map.Entry<String, String> entry : nuevo.entrySet()) {
-                String tipo = entry.getValue().substring(0,entry.getValue().indexOf("|"));
-                String cantidad = entry.getValue().substring(entry.getValue().indexOf("|")+1,entry.getValue().length());
-                System.out.println("El usuario tiene: "+cantidad+" veces la carta " +entry.getKey()+" de tipo "+tipo);
+            for (Map.Entry<String, ArrayList<String>> entry : usuarioCartas.entrySet()) {                                                     
+                System.out.println("El usuario tiene: "+entry.getValue().size()+" veces la carta "+entry.getKey()+" de tipo "+entry.getValue().get(0));
             }
-        } else {
-            // ordenado
+        }  else { // es porque tiene que estar ordenado
+            for (Map.Entry<String, ArrayList<String>> entry : usuarioCartas.entrySet()) {                       
+                element = "El usuario tiene: "+entry.getValue().size()+" veces la carta "+entry.getKey()+ " de tipo ";        
+                nuevo.put(element, entry.getValue().get(0));                           
+            }
+            
+            Stream<Map.Entry<String, String>> sorted = nuevo.entrySet().stream()
+			       .sorted(Map.Entry.comparingByValue());
+		sorted.forEach(System.out::println);
         }        
     }
 
